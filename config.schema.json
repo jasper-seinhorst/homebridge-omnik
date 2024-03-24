@@ -11,6 +11,20 @@
         "required": true,
         "default": ""
       },
+      "username": {
+        "title": "Inverter username",
+        "type": "string",
+        "required": true,
+        "default": "admin",
+        "description": "The username is likely admin, unless it has been modified by the installer."
+      },
+      "password": {
+        "title": "Inverter password",
+        "type": "string",
+        "required": true,
+        "default": "admin",
+        "description": "The password is likely admin, unless it has been modified by the installer."
+      },
       "pollInterval": {
         "title": "Poll interval (in minutes)",
         "type": "number",

@@ -27,19 +27,19 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
   }
 
   private validateConfig(): boolean {
-    return !!this.config.ip;
+    return !!this.config.ip && !!this.config.username && !!this.config.password;
   }
 
   private async initialise() {
     if (!this.validateConfig()) {
-      this.log.error('Configuration error. Please provide your Omnik-inverter\'s IP address');
+      this.log.error('Configuration error. Please provide your Omnik-inverter\'s IP address, username and password');
       return;
     }
 
-    this.omnikApi = new OmnikApi(this.config.ip);
+    this.omnikApi = new OmnikApi(this.config.ip, this.config.username, this.config.password);
 
     if (!await this.omnikApi.ValidateIp()) {
-      this.log.error('Your Omnik inverter\'s IP address seems to be incorrect. No connection possible');
+      this.log.error('Your Omnik inverter\'s IP address or credentials seem to be incorrect. No connection possible');
       return;
     }
 
@@ -100,7 +100,7 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
       });
 
     } catch (error) {
-      this.log.error('Failed to update data, no connection possible with your inverter');
+      this.log.error('Failed to update data');
     }
   }
 }

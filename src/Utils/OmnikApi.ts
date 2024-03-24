@@ -3,10 +3,15 @@ import { PowerProduction, OmnikDevice } from '../PlatformTypes';
 
 export default class OmnikApi {
   private ip: string;
-  private timeout: 5000;
+  private username: string;
+  private password: string;
 
-  constructor(ip: string) {
+  private timeout: 10000;
+
+  constructor(ip: string, username: string, password: string) {
     this.ip = ip;
+    this.username = username;
+    this.password = password;
   }
 
   private SplitStatusData(statusData: string): string[] {
@@ -19,8 +24,8 @@ export default class OmnikApi {
         {
           timeout: this.timeout,
           auth: {
-            username: 'admin',
-            password: 'admin',
+            username: this.username,
+            password: this.password,
           },
         },
       );
@@ -37,8 +42,8 @@ export default class OmnikApi {
         {
           timeout: this.timeout,
           auth: {
-            username: 'admin',
-            password: 'admin',
+            username: this.username,
+            password: this.password,
           },
         },
       );
@@ -61,8 +66,8 @@ export default class OmnikApi {
         {
           timeout: this.timeout,
           auth: {
-            username: 'admin',
-            password: 'admin',
+            username: this.username,
+            password: this.password,
           },
         },
       );
