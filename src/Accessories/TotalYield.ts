@@ -10,14 +10,14 @@ export default class TotalYield implements OmnikAccessory {
     this.accessory.getService(this.Service.AccessoryInformation)
       .setCharacteristic(this.Characteristic.Manufacturer, 'Omnik')
       .setCharacteristic(this.Characteristic.Model, device.name)
-      .setCharacteristic(this.Characteristic.SerialNumber, device.serial);
-
-
+      .setCharacteristic(this.Characteristic.SerialNumber, `${device.serial}-total-yield`);
     this.powerService = this.accessory.getService(this.Service.LightSensor) || this.accessory.addService(this.Service.LightSensor);
   }
 
   public beat(powerProduction: PowerProduction) {
+    const minimumValue = 0.0001;
     const consumption = powerProduction.total / 10;
-    this.powerService.setCharacteristic(this.Characteristic.CurrentAmbientLightLevel, consumption);
+    const newValue = consumption > minimumValue ? consumption : minimumValue;
+    this.powerService.setCharacteristic(this.Characteristic.CurrentAmbientLightLevel, newValue);
   }
 }

@@ -10,14 +10,14 @@ export default class CurrentPowerProduction implements OmnikAccessory {
     this.accessory.getService(this.Service.AccessoryInformation)
       .setCharacteristic(this.Characteristic.Manufacturer, 'Omnik')
       .setCharacteristic(this.Characteristic.Model, device.name)
-      .setCharacteristic(this.Characteristic.SerialNumber, device.serial);
-
-
+      .setCharacteristic(this.Characteristic.SerialNumber, `${device.serial}-power-production`);
     this.powerService = this.accessory.getService(this.Service.LightSensor) || this.accessory.addService(this.Service.LightSensor);
   }
 
   public beat(powerProduction: PowerProduction) {
+    const minimumValue = 0.0001;
     const consumption = powerProduction.now;
-    this.powerService.setCharacteristic(this.Characteristic.CurrentAmbientLightLevel, consumption);
+    const newValue = consumption > minimumValue ? consumption : minimumValue;
+    this.powerService.setCharacteristic(this.Characteristic.CurrentAmbientLightLevel, newValue);
   }
 }

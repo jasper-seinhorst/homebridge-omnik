@@ -9,11 +9,10 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
   public readonly accessories: PlatformAccessory[] = [];
-  private heartBeatInterval;
+  private heartBeatInterval: number;
   private devices: OmnikAccessory[] = [];
   private omnikApi: OmnikApi;
   private device: OmnikDevice;
-
 
   constructor(public readonly log: Logger, public readonly config: PlatformConfig, public readonly api: API) {
     this.heartBeatInterval = (config.pollInterval || 5) * 60 * 1000; // minutes to miliseconds

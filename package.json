@@ -1,7 +1,7 @@
 {
   "name": "homebridge-omnik",
   "displayName": "Omnik Inverter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Add your Omnik-Inverter to Homekit",
   "license": "Apache-2.0",
   "author": "Jasper Seinhorst",
