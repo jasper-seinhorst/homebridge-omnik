@@ -9,13 +9,14 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
   public readonly accessories: PlatformAccessory[] = [];
-  private heartBeatInterval: number = 5 * 60 * 1000; // every 5 minutes
+  private heartBeatInterval;
   private devices: OmnikAccessory[] = [];
   private omnikApi: OmnikApi;
   private device: OmnikDevice;
 
 
   constructor(public readonly log: Logger, public readonly config: PlatformConfig, public readonly api: API) {
+    this.heartBeatInterval = (config.pollInterval || 5) * 60 * 1000; // minutes to miliseconds
     this.api.on('didFinishLaunching', () => {
       this.initialise();
     });
@@ -53,7 +54,7 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
   }
 
   private setupAccessoires() {
-    const currentPowerProductionName = 'Current Power Production (W)';
+    const currentPowerProductionName = 'Current Power Production';
     const currentPowerProductionUuid = this.api.hap.uuid.generate('omnik-inverter-current-power-production');
     const currentPowerProductionExistingAccessory = this.accessories.find(accessory => accessory.UUID === currentPowerProductionUuid);
     if (currentPowerProductionExistingAccessory) {
@@ -65,7 +66,7 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
       this.api.registerPlatformAccessories('homebridge-omnik', 'Omnik', [accessory]);
     }
 
-    const totalProductionName = 'Total Yield (kWh)';
+    const totalProductionName = 'Total Yield in kWh';
     const totalProductionUuid = this.api.hap.uuid.generate('omnik-inverter-total-production');
     const totalProductionExistingAccessory = this.accessories.find(accessory => accessory.UUID === totalProductionUuid);
     if (totalProductionExistingAccessory) {
@@ -77,7 +78,7 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
       this.api.registerPlatformAccessories('homebridge-omnik', 'Omnik', [accessory]);
     }
 
-    const todayProductName = 'Today Yield (kWh)';
+    const todayProductName = 'Today Yield in kWh';
     const todayProductionUuid = this.api.hap.uuid.generate('omnik-inverter-today-production');
     const todayProductionExistingAccessory = this.accessories.find(accessory => accessory.UUID === todayProductionUuid);
     if (todayProductionExistingAccessory) {
@@ -93,7 +94,7 @@ export class OmnikPlugin implements DynamicPlatformPlugin {
   private async heartBeat() {
     try {
       const powerProductionInfo = await this.omnikApi.GetPowerProduction();
-      this.log.debug('Updating power production info');
+      this.log.debug('heart beat');
       this.devices.forEach((device: OmnikAccessory) => {
         device.beat(powerProductionInfo);
       });
