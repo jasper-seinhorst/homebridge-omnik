@@ -1,0 +1,16 @@
+{
+  "pluginAlias": "Omnik",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "ip": {
+        "title": "Omnik-inverter IP address",
+        "type": "string",
+        "required": true,
+        "default": ""
+      }
+    }
+  }
+}
