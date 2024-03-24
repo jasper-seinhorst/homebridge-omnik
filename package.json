@@ -1,8 +1,8 @@
 {
   "name": "homebridge-omnik",
-  "displayName": "Homewizard Omnik",
+  "displayName": "Homebridge Omnik",
   "version": "1.0.0",
-  "description": "Add your Omnik inverter to Homekit",
+  "description": "Add your Omnik-Inverter to Homekit",
   "license": "Apache-2.0",
   "author": "Jasper Seinhorst",
   "repository": {
@@ -31,7 +31,8 @@
     "power-consumption",
     "power-return",
     "solar",
-    "solar-panels"
+    "solar-panels",
+    "yield"
   ],
   "devDependencies": {
     "@types/node": "^20.11.25",
